@@ -1,67 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>home</title>
-    <style>
-        *{
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        .parent{
-        width: 100vw;
-        height: 100vh;
-        position: relative;
-        background-image: url("https://img.freepik.com/premium-photo/empty-wooden-table-top-with-blur-bookshelves-bookstore-background_7188-619.jpg");
-        background-repeat: no-repeat;
-        background-size: 100vw 100vh;
-        }
-        .child{
-            position: absolute;
-            background-image: url("https://i.pinimg.com/474x/04/33/8b/04338bb395c6a7c08542fc51bc9be25c.jpg");
-            background-repeat: no-repeat;
-            background-size: 40vw 45vh;
-            height: 40vh;
-            width: 40vw;
-            top: 45vh;
-            left: 30vw;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            align-items: center;
-            padding-top: 5vh;
-        }
-        .buttons{
-            display: flex;
-            gap: 5vw;
-        }
-        a button{
-            font-size: large;
-            padding: 1.5vw;
-            border-radius: 1rem;
-        }
-        h2{
-            font-size: 4.5vh;
-        }
-        a button:hover{
-            transform: scale(1.1);
-        }
-    </style>
-</head>
-<body>
-    <div class="parent">
-        <div class="child">
-            <h2>Welcome to my Book Store</h2>
-            <div class="buttons">
-                <a href="/register/"><button>Register</button></a>
-                <a href="/login/"><button>Login</button></a>
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="container-fluid parent">
+        <div class="d-flex flex-column align-items-center pt-5 gap-4 child">
+            <h2 class="text-center px-5">Welcome to my Book Store</h2>
+            <div class="d-flex flex-row gap-5 ">
+                <a href="/register/"><button class="btn-primary btn-sm btn-h">Register</button></a>
+                <a href="/login/"><button class="btn-primary btn-sm btn-h">Login</button></a>
             </div>
             {% if messages %}
-		    <div style="color: red;">
+		    <div>
 		        {% for message in messages %}
-			    <div>
+			    <div class="text-success">
 				    <h3>{{ message }}</h3>
 			    </div>
 		        {% endfor %}
@@ -69,5 +21,5 @@
 	        {% endif %}
         </div>
     </div>
-</body>
-</html>
+
+{% endblock %}

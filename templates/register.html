@@ -1,34 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+    <div class="container w-50">
     {% if messages %}
         <div>
         {% for message in messages %}
-            <div style="color: red;">
-                <h1>{{ message }}</h1>
+            <div class="text-danger">
+                <h3>{{ message }}</h3>
             </div>
         {% endfor %}
         </div>
     {% endif %}
-    <h1>REGISTER</h1>
-    <form action="" , method="POST">
+        <h2>REGISTRATION PAGE</h2>
+        <form action="" , method="POST">
         {% csrf_token %}
-        Email: <input type="email" required name="email"> <br><br>
-        Password: <input type="password" required name="password"> <br><br>
-        First Name: <input type="text" required name="first_name" > <br><br>
-        Last Name: <input type="text" required name="last_name" > <br><br>
-        Role : <select required name="role">
-            <option value="admin">admin</option>
-            <option value="vendor">vendor</option>
-            <option value="customer">customer</option>
-        </select> <br><br>
-        Phone: <input type="tel" name="phone"> <br><br>
-        <button>Submit</button>
-    </form>
-</body>
-</html>
+            <div class="mb-3 mt-3">
+                <label for="f1">Email:</label>
+                <input class="form-control" type="email" id="f1" required name="email" placeholder="Enter your email">
+            </div>
+            <div class="mb-3">
+                <label for="f2"></label>Password:
+                <input class="form-control" id="f2" type="password" required name="password" placeholder="Enter your password">
+            </div>
+            <div class="mb-3">
+                <label for="f3">First Name:</label>
+                <input class="form-control" id="f3" type="text" required name="first_name" placeholder="Enter your first name">
+            </div>
+            <div class="mb-3">
+                <label for="f4"></label>Last Name:
+                <input class="form-control" id="f4" type="text" required name="last_name" placeholder="Enter your last name">
+            </div>
+            <div class="mb-3">
+                Role :
+                <select class="form-select" required name="role">
+                    <option value="admin">admin</option>
+                    <option value="vendor">vendor</option>
+                    <option value="customer">customer</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="f6">Phone:</label>
+                <input class="form-control" id="f6" type="text" name="phone" placeholder="Enter your phone number">
+            </div>
+            <button class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+{% endblock %}

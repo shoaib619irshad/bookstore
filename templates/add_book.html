@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Books{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    {% if messages %}
+        <div>
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+            <div class="text-danger">
+                <h3>{{ message }}</h3>
+            </div>
+            {% endif %}
+            <div class="text-success">
+                <h3>{{ message }}</h3>
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+    <h2>Add book</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3 mt-3">
+            <label for="f1">Name:</label>
+            <input class="form-control" type="text" id="f1" required name="name" placeholder="Enter books's name">
+        </div>
+        <div class="mb-3">
+            <label for="f2">Author:</label>
+            <input class="form-control" type="text" id="f2" required name="author" placeholder="Enter author's name ">
+        </div>
+        <div class="mb-3">
+            <label for="f3">Published Year</label>
+            <input class="form-control" type="text" id="f3" required name="p_year" placeholder="Enter year of publication">
+        </div>
+        <button class="btn btn-primary">Add</button>
+    </form>
+    </div>
+
+{% endblock %}

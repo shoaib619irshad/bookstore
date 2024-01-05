@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Book{% endblock %}
+
+{% block content %}
+
+{% include 'home_button.html' %}
+<div class="container w-50">
+    {% if messages %}
+		    <div>
+		        {% for message in messages %}
+			    <div class="text-success">
+				    <h3>{{ message }}</h3>
+			    </div>
+		        {% endfor %}
+		    </div>
+	{% endif %}
+    <h1 class="mt-3">Delete Book</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3 mt-3">
+            Choose Book :
+                <select class="form-select" required name="book">
+                    {% for book in books %}
+                    <option value="{{book.name}}">{{book.name}}</option>
+                    {% endfor %}
+                </select>
+        </div>
+        <button class="btn btn-primary">Submit</button>
+    </form>
+
+</div>
+
+{% include 'footer.html' %}
+{% endblock %}

@@ -1,34 +1,32 @@
 {% extends 'base.html' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Issued Books{% endblock %}
 
 {% block content %}
 
-    {% include 'home_button.html' %}
-    <div class="container w-50">
+{% include 'home_button.html' %}
+<div class="container w-50">
     {% if messages %}
         <div>
         {% for message in messages %}
+            {% if message.tags == 'error' %}
             <div class="text-danger">
                 <h3>{{ message }}</h3>
             </div>
+            {% endif %}
         {% endfor %}
         </div>
     {% endif %}
-    <h2>Login</h2>
+    <h1>Issued Books</h1>
     <form method="POST">
         {% csrf_token %}
         <div class="mb-3 mt-3">
             <label for="f1">Email:</label>
             <input class="form-control" type="email" id="f1" required name="email" placeholder="Enter your email">
         </div>
-        <div class="mb-3">
-            <label for="f2">Password: </label>
-            <input class="form-control" type="password" id="f2" required name="password" placeholder="Enter your password">
-        </div>
-        <button class="btn btn-primary">Login</button>
+        <button class="btn btn-primary">Check</button>
     </form>
-    </div>
+</div>
 
 {% include 'footer.html' %}
 {% endblock %}

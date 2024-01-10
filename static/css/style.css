@@ -19,3 +19,13 @@ background-size: 100vw 100vh;
 .btn-h:hover{
     transform: scale(1.1);
 }
+.home{
+    position: absolute;
+    top: 2vh;
+    right: 1vw;
+}
+.footer{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}

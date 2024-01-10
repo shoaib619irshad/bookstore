@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Add Books{% endblock %}
+{% block title %}Issue Book{% endblock %}
 
 {% block content %}
 
 {% include 'home_button.html' %}
-<div class="container">
+<div class="container w-50">
     {% if messages %}
         <div>
         {% for message in messages %}
@@ -22,7 +22,7 @@
         {% endfor %}
         </div>
     {% endif %}
-    <h2>Add book</h2>
+    <h2>Issue Book</h2>
     <form method="POST">
         {% csrf_token %}
         <div class="mb-3 mt-3">
@@ -30,16 +30,16 @@
             <input class="form-control" type="text" id="f1" required name="name" placeholder="Enter books's name">
         </div>
         <div class="mb-3">
-            <label for="f2">Author:</label>
-            <input class="form-control" type="text" id="f2" required name="author" placeholder="Enter author's name ">
+            Issue to:
+            <select class="form-select" required name="issued_to">
+                {% for customer in customers %}
+                <option value="{{customer}}">{{customer.first_name}} {{customer.last_name}}</option>
+                {% endfor %}
+            </select>
         </div>
-        <div class="mb-3">
-            <label for="f3">Published Year</label>
-            <input class="form-control" type="text" id="f3" required name="p_year" placeholder="Enter year of publication">
-        </div>
-        <button class="btn btn-primary">Add</button>
+        <button class="btn btn-primary">Issue</button>
     </form>
-    </div>
+</div>
 
 {% include 'footer.html' %}
 {% endblock %}

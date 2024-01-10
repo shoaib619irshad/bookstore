@@ -4,13 +4,15 @@
 
 {% block content %}
 
+{% include 'home_button.html' %}
 <div class="container-fluid d-flex flex-column align-items-center mt-5">
     <h2 class="pb-3">Welcome <span class="text-decoration-underline text-primary">{{user}}</span></h2>
     {% if user.role == 'admin' %}
     <div class="d-flex flex-row gap-4">
         <a href="/add/"><button class="btn btn-primary">Add Book</button></a>
         <a href="/view/"><button class="btn btn-primary">View Books</button></a>
-        <button class="btn btn-primary">Issue Book</button>
+        <a href="/issue/"><button class="btn btn-primary">Issue Book</button></a>
+        <a href="/delete"><button class="btn btn-primary">Delete Book</button></a>
     </div>
     {% endif %}
     {% if user.role == 'vendor' %}
@@ -21,10 +23,12 @@
     {% endif %}
     {% if user.role == 'customer' %}
     <div class="d-flex flex-row gap-4">
-        <a href="/view/"><button class="btn btn-primary">View Books</button></a>
+        <a href="/view/"><button class="btn btn-primary">View All Books</button></a>
+        <a href="/books/"><button class="btn btn-primary">View Issued Books</button></a>
     </div>
     {% endif %}
 
 </div>
 
+{% include 'footer.html' %}
 {% endblock %}

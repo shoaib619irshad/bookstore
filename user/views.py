@@ -20,11 +20,20 @@ class RegisterView(View):
 
     def post(self, request, *args, **kwargs):
         email = request.POST['email']
+        password = request.POST['password']
+        c_password = request.POST['c_password']
+        if password != c_password:
+            messages.error(request, 'Passwords does not match')
+            return render(request, 'register.html')
         password = make_password(request.POST['password'])
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         role = request.POST['role']
         phone = request.POST['phone']
+        if len(phone) != 10:
+            messages.error(request, 'Phone number must be 10 digits long')
+            return render(request, 'register.html')
+
         user = CustomUser(email=email, password=password, first_name=first_name, last_name=last_name, role=role, phone=phone)
         try:
             user.save()

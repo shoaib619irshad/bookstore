@@ -7,22 +7,33 @@
 {% include 'navbar.html' %}
 
 <div class="container w-50  mb-5 mt-5 pt-1">
-    <a href="/change_pass/?user={{user.id}}"><button class="btn-sm btn-primary" style=" position: absolute; top: 9vh; right: 1vw;">Change Password</button></a>
+    {% if messages %}
+        <div>
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+            <div class="text-danger">
+                <h3>{{ message }}</h3>
+            </div>
+            {% endif %}
+        {% endfor %}
+        </div>
+    {% endif %}
+    <a href="/change_pass/"><button class="btn-sm btn-primary" style=" position: absolute; top: 9vh; right: 1vw;">Change Password</button></a>
     <h2>Update Profile</h2>
     <h4>Fill the details you want to update</h4>
     <form method="POST">
     {% csrf_token %}
         <div class="mb-3 mt-3">
             <label for="f1">Email:</label>
-            <input class="form-control" type="email" id="f1" required name="email" placeholder="Enter your email">
+            <input class="form-control" type="email" id="f1" name="email" placeholder="Enter your email">
         </div>
         <div class="mb-3">
             <label for="f2">First Name:</label>
-            <input class="form-control" id="f2" type="text" required name="first_name" placeholder="Enter your first name">
+            <input class="form-control" id="f2" type="text" name="first_name" placeholder="Enter your first name">
         </div>
         <div class="mb-3">
             <label for="f3">Last Name:</label>
-            <input class="form-control" id="f3" type="text" required name="last_name" placeholder="Enter your last name">
+            <input class="form-control" id="f3" type="text" name="last_name" placeholder="Enter your last name">
         </div>
         <div class="mb-3">
             <label for="f4">Phone:</label>

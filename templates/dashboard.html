@@ -6,26 +6,28 @@
 
 {% include 'navbar.html' %}
 <div class="container-fluid d-flex flex-column align-items-center mt-5 pt-1">
-    <a href="/change_pass/?user={{user.id}}"><button class="btn-sm btn-primary" style=" position: absolute; top: 9vh; right: 1vw;">Change Password</button></a>
+    <a href="/change_pass/"><button class="btn-sm btn-primary" style=" position: absolute; top: 9vh; right: 1vw;">Change Password</button></a>
+    <a href="/logout/"><button class="btn btn-primary" style="position: absolute; top: 15vh; right: 1vw;">Logout</button></a>
     <h2 class="pb-3">Welcome <span class="text-decoration-underline text-primary">{{user}}</span></h2>
     {% if user.role == 'owner' %}
     <div class="d-flex flex-row gap-4">
-        <a href="/add/"><button class="btn btn-primary">Add Book</button></a>
-        <a href="/view/"><button class="btn btn-primary">View Books</button></a>
-        <a href="/delete/"><button class="btn btn-primary">Delete Book</button></a>
+        <a href="/book/add/"><button class="btn btn-primary">Add Book</button></a>
+        <a href="/book/view/"><button class="btn btn-primary">View Books</button></a>
+        <a href="/book/delete/"><button class="btn btn-primary">Delete Book</button></a>
     </div>
     {% endif %}
     {% if user.role == 'vendor' %}
     <div class="d-flex flex-row gap-4">
-        <a href="/add/"><button class="btn btn-primary">Add Book</button></a>
-        <a href="/view/"><button class="btn btn-primary">View Books</button></a>
+        <a href="/book/add/"><button class="btn btn-primary">Add Book</button></a>
+        <a href="/profile/"><button class="btn btn-primary">Update Profile</button></a>
+        <a href="/book/view/"><button class="btn btn-primary">View Books</button></a>
     </div>
     {% endif %}
     {% if user.role == 'customer' %}
     <div class="d-flex flex-row gap-4">
         <a href="/viewcart/?uid={{user.id}}"><button class="btn btn-primary">Your Cart</button></a>
-        <a href="/profile/?u_id={{user.id}}"><button class="btn btn-primary">Update Profile</button></a>
-        <a href="/return/?u_id={{user.id}}"><button class="btn btn-primary">Return Book</button></a>
+        <a href="/profile/"><button class="btn btn-primary">Update Profile</button></a>
+        <a href="/book/return/"><button class="btn btn-primary">Return Book</button></a>
         
     </div>
     {% if books %}
@@ -37,7 +39,7 @@
                 <h5 class="card-title">{{book.name}}</h5>
                 <p class="card-text">By {{book.author}}, {{book.published_year}}</p>
                 <a href="/cart/?u_id={{user.id}}&b_name={{book.name}}"><button class="btn btn-sm btn-primary">Add to cart</button></a>
-                <a href="/order/?u_id={{user.id}}&b_name={{book.name}}"><button class="btn btn-sm btn-primary">Order now</button></a>
+                <a href="/book/order/?bid={{book.id}}"><button class="btn btn-sm btn-primary">Order now</button></a>
 
             </div>
         </div>

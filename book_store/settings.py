@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -82,11 +87,11 @@ WSGI_APPLICATION = 'book_store.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'bookstore',
-        'USER': 'root',
-        'PASSWORD': 'new_password',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv("USER_NAME"),
+        'PASSWORD': os.getenv("PASSWORD"),
+        'HOST': os.getenv("HOST_NAME"),
+        'PORT': os.getenv("PORT_NO"),
     }
 }
 

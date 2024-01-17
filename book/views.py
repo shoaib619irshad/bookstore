@@ -45,23 +45,19 @@ class DeleteView(View):
 
 class OrderView(View):
     def get(self, request, *args, **kwargs):
-        uid = request.GET.get('u_id')
-        user = CustomUser.objects.filter(id=uid).first()
-        bname = request.GET.get('b_name')
-        book = Books.objects.filter(name=bname).first()
-        
-        return render(request, 'order_book.html', {'user':user, 'book':book})
+        bid = request.GET.get('bid')
+        book = Books.objects.filter(id=bid).first()
+        return render(request, 'order_book.html', {'book':book})
     
     def post(self, request, *args, **kwargs):
-        uid = request.GET.get('u_id')
-        user = CustomUser.objects.filter(id=uid).first()
-        bname = request.GET.get('b_name')
-        book = Books.objects.filter(name=bname).first()
+        user = request.user
+        bid = request.GET.get('bid')
+        book = Books.objects.filter(id=bid).first()
         
         book.status=Books.ORDERED
         book.ordered_by = user
         book.save()
-        bc = BookCart.objects.filter(name=bname)
+        bc = BookCart.objects.filter(name=book.name)
         if bc:
             bc.delete()
         messages.success(request, 'Order placed successfully')
@@ -70,10 +66,9 @@ class OrderView(View):
 
 class ReturnView(View):
     def get(self, request, *args, **kwargs):
-        id = (request.GET.get('u_id'))
-        user = CustomUser.objects.filter(id=id).first()
+        user = request.user
         books = Books.objects.filter(ordered_by=user)
-        return render(request, 'return_book.html', {'books':books, 'user':user})
+        return render(request, 'return_book.html', {'books':books, 'check':'check'})
     
     def post(self, request, *args, **kwargs):
         name = request.POST['book']
@@ -108,31 +103,6 @@ class CartView(View):
         bookscart = BookCart.objects.all()
         return render(request, 'cart.html', {'bookscart':bookscart, 'user':user})
 
-class ChangePasswordView(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'change_password.html')
-    
-    def post(self, request, *args, **kwargs):
-        old_password = request.POST['old_pass']
-        new_password = request.POST['new_pass']
-        confirm_password = request.POST['c_pass']
-        user_id = request.GET.get('user')
-        user = CustomUser.objects.filter(id=user_id).first()
-        if not user.check_password(old_password):
-            messages.error(request, 'Old password does not match.You can try forgot password')
-            return render(request , 'result.html')
-        if old_password == new_password:
-            messages.error(request, 'New Password cannot be old password')
-            return render(request, 'change_password.html')
-        if new_password != confirm_password:
-            messages.error(request, 'Password does not match')
-            return render(request, 'change_password.html')
-        
-        user.password = make_password(new_password)
-        user.save()
-        messages.success(request, 'Password changed successfully.Please Login again.')
-        return render(request, 'result.html')
-       
 
 class RemoveView(View):
     def get(self, request, *args, **kwargs):
@@ -153,10 +123,3 @@ class RemoveView(View):
         book.delete()
         bookscart = BookCart.objects.all()
         return render(request, 'cart.html', {'user':user, 'bookscart':bookscart})
-    
-
-class UpdateProfileView(View):
-    def get(self, request, *args, **kwargs):
-        uid = request.GET.get('u_id')
-        user = CustomUser.objects.filter(id=uid).first()
-        return render(request, 'update_profile.html', {'user':user})

@@ -7,7 +7,7 @@
 {% include 'navbar.html' %}
 
 <div class="container w-50 mt-5 pt-1">
-    {% if user %}
+{% if book %}
   <div class="my-3 ">
     <h3>Book name : {{book.name}}</h3>
     <h3>Your email : {{user.email}}</h3>
@@ -21,8 +21,9 @@
         {% if messages %}
         <div>
             {% for message in messages %}
-            <div class="text-success">
+            <div class="d-flex flex-column align-items-center justify-content-center text-success">
                 <h3>{{ message }}</h3>
+                <a href="/dashboard/"><button class=" btn btn-primary">Dashboard</button></a>
             </div>
         {% endfor %}
         </div>

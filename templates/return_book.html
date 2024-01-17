@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Return Books{% endblock %}
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+<div class="container w-50 mt-5">
+    {% if user %}
+    <h2>Return Book</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3 mt-3">
+            Select Book :
+                <select class="form-select" required name="book">
+                    {% for book in books %}
+                    {% if book.ordered_by.email == user %}
+                    <option value="{{book.name}}">{{book.name}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+        </div>
+        <button class="btn btn-primary">Return</button>
+    </form>
+    {% endif %}
+    <div class="container w-75 mt-3">
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+            <div class="text-success">
+                <h3>{{ message }}</h3>
+            </div>
+        {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+
+</div>
+
+{% include 'footer.html' %}
+
+{% endblock %}

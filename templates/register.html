@@ -4,8 +4,8 @@
 
 {% block content %}
 
-    {% include 'home_button.html' %}
-    <div class="container w-50">
+    {% include 'navbar.html' %}
+    <div class="container w-50  mb-5 mt-5 pt-1">
     {% if messages %}
         <div>
         {% for message in messages %}
@@ -23,15 +23,19 @@
                 <input class="form-control" type="email" id="f1" required name="email" placeholder="Enter your email">
             </div>
             <div class="mb-3">
-                <label for="f2"></label>Password:
+                <label for="f2">Password:</label>
                 <input class="form-control" id="f2" type="password" required name="password" placeholder="Enter your password">
+            </div>
+            <div class="mb-3">
+                <label for="fn"> Confirm Password:</label>
+                <input class="form-control" id="fn" type="password" required name="c_password" placeholder="Confirm your password">
             </div>
             <div class="mb-3">
                 <label for="f3">First Name:</label>
                 <input class="form-control" id="f3" type="text" required name="first_name" placeholder="Enter your first name">
             </div>
             <div class="mb-3">
-                <label for="f4"></label>Last Name:
+                <label for="f4">Last Name:</label>
                 <input class="form-control" id="f4" type="text" required name="last_name" placeholder="Enter your last name">
             </div>
             <div class="mb-3">
@@ -43,11 +47,11 @@
             </div>
             <div class="mb-3">
                 <label for="f6">Phone:</label>
-                <input class="form-control" id="f6" type="text" name="phone" placeholder="Enter your phone number">
+                <input class="form-control" id="f6" type="text" name="phone" maxlength="10" placeholder="Enter your phone number">
             </div>
-            <button class="btn btn-primary">Submit</button>
+            <button class="btn btn-primary mb-5">Submit</button>
         </form>
     </div>
 
- {% include 'footer.html' %}
+{% include 'footer.html' %}
 {% endblock %}

@@ -25,8 +25,7 @@ SECRET_KEY = 'django-insecure-mw%4zl*(6ih2n$a))*y)b8cf@3f=g62(v8s@t^k9wg$mkzktr3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '41fd-2405-201-4021-1a49-485-5c6c-c89e-db78.ngrok-free.app' ]
-CSRF_TRUSTED_ORIGINS = ['https://41fd-2405-201-4021-1a49-485-5c6c-c89e-db78.ngrok-free.app']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -85,7 +84,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bookstore',
         'USER': 'root',
-        'PASSWORD': 'shoaib09',
+        'PASSWORD': 'new_password',
         'HOST': 'localhost',
         'PORT': '3306',
     }

@@ -8,14 +8,15 @@
 
 <div class="container w-50 mt-5">
     {% if user %}
-    <h2>Return Book</h2>
+    <h2 class="pt-3">Return Book</h2>
+     {% if books %}
     <form method="post">
         {% csrf_token %}
         <div class="mb-3 mt-3">
             Select Book :
                 <select class="form-select" required name="book">
                     {% for book in books %}
-                    {% if book.ordered_by.email == user %}
+                    {% if book.ordered_by.email == user.email %}
                     <option value="{{book.name}}">{{book.name}}</option>
                     {% endif %}
                     {% endfor %}
@@ -24,6 +25,11 @@
         <button class="btn btn-primary">Return</button>
     </form>
     {% endif %}
+    {% if not books %}
+        <h3 class="text-danger">No books to return</h3>
+    {% endif %}
+    {% endif %}
+
     <div class="container w-75 mt-3">
         {% if messages %}
         <div>

@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.db import IntegrityError
 
 from .models import CustomUser
+from book.models import Books
 
 class HomeView(TemplateView):
 	template_name = 'home.html'
@@ -50,6 +51,7 @@ class LoginView(View):
         return render(request, 'login.html')
     
     def post(self, request, *args, **kwargs):
+        books = Books.objects.all()
         email = request.POST['email']
         password = request.POST['password']
         user = authenticate(email=email, password=password)
@@ -59,4 +61,4 @@ class LoginView(View):
         
         user.last_login = timezone.now()
         user.save()
-        return render(request, 'dashboard.html', {'user': user})    
+        return render(request, 'dashboard.html', {'user': user, 'books':books})

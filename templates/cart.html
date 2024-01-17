@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+<div class="container-fluid d-flex flex-column align-items-center mt-5">
+    <h1 class="text-center pt-2">Cart
+        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">
+            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+        </svg>
+    </h1>
+    {% if bookscart %}
+    <div class="d-flex flex-row flex-wrap justify-content-center gap-3 my-5 p-4 w-75">
+        {% for book in bookscart %}
+        {% if book.added_by == user %}
+        <div class="card my-2 mx-3" style="width: 16rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{book.name}}</h5>
+                <p class="card-text">By {{book.author}}, {{book.published_year}}</p>
+                <a href="/remove/?u_id={{user.id}}&b_id={{book.id}}"><button class="btn btn-sm btn-primary">Remove</button></a>
+                <a href="/order/?u_id={{user.id}}&b_name={{book.name}}"><button class="btn btn-sm btn-primary">Order now</button></a>
+
+            </div>
+            {% if confirm %}
+            <div class="mx-auto mb-2">
+                <form method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-primary btn-sm">Confirm</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% if not bookscart %}
+    <h3 class="text-center text-danger">Cart is Empty!!!</h3>
+    {% endif %}
+</div>
+
+{% include 'footer.html' %}
+{% endblock %}

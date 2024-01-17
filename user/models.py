@@ -5,11 +5,11 @@ from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
 
 class CustomUser(AbstractBaseUser):
-    ADMIN = 'admin'
+    OWNER = 'owner'
     VENDOR = 'vendor'
     CUSTOMER = 'customer'
     ROLE = (
-       (ADMIN, _('admin')),
+       (OWNER, _('owner')),
        (VENDOR, _('vendor')),
        (CUSTOMER, _('customer')),
        )

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Profile{% endblock %}
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+<div class="container w-50  mb-5 mt-5 pt-1">
+    <a href="/change_pass/?user={{user.id}}"><button class="btn-sm btn-primary" style=" position: absolute; top: 9vh; right: 1vw;">Change Password</button></a>
+    <h2>Update Profile</h2>
+    <h4>Fill the details you want to update</h4>
+    <form method="POST">
+    {% csrf_token %}
+        <div class="mb-3 mt-3">
+            <label for="f1">Email:</label>
+            <input class="form-control" type="email" id="f1" required name="email" placeholder="Enter your email">
+        </div>
+        <div class="mb-3">
+            <label for="f2">First Name:</label>
+            <input class="form-control" id="f2" type="text" required name="first_name" placeholder="Enter your first name">
+        </div>
+        <div class="mb-3">
+            <label for="f3">Last Name:</label>
+            <input class="form-control" id="f3" type="text" required name="last_name" placeholder="Enter your last name">
+        </div>
+        <div class="mb-3">
+            <label for="f4">Phone:</label>
+            <input class="form-control" id="f4" type="text" name="phone" maxlength="10" placeholder="Enter your phone number">
+        </div>
+        <button class="btn btn-primary mb-5">Update</button>
+    </form>
+</div>
+
+{% include 'footer.html' %}
+{% endblock %}

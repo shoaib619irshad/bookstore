@@ -44,15 +44,25 @@ class DeleteView(View):
     
 
 class OrderView(View):
-    def get(self, request, *args, **kwargs):
-        bid = request.GET.get('bid')
-        book = Books.objects.filter(id=bid).first()
-        return render(request, 'order_book.html', {'book':book})
+    def get(self, request, book_id, *args, **kwargs):
+        if request.path == f"/book/order/{book_id}/":
+            book = Books.objects.filter(id=book_id).first()
+            return render(request, 'order_book.html', {'book':book})
+        
+        elif request.path == f"/cart/order/{book_id}/":
+            book1 = BookCart.objects.filter(id=book_id).first()
+            book = Books.objects.filter(name=book1.name).first()
+            return render(request, 'order_book.html', {'book':book})
+
     
-    def post(self, request, *args, **kwargs):
+    def post(self, request, book_id, *args, **kwargs):
         user = request.user
-        bid = request.GET.get('bid')
-        book = Books.objects.filter(id=bid).first()
+        if request.path == f"/book/order/{book_id}/":
+            book = Books.objects.filter(id=book_id).first()
+
+        elif request.path == f"/cart/order/{book_id}/":
+            book1 = BookCart.objects.filter(id=book_id).first()
+            book = Books.objects.filter(name=book1.name).first()
         
         book.status=Books.ORDERED
         book.ordered_by = user
@@ -61,14 +71,14 @@ class OrderView(View):
         if bc:
             bc.delete()
         messages.success(request, 'Order placed successfully')
-        return redirect('order_book')
+        return render(request, 'order_book.html')
     
 
 class ReturnView(View):
     def get(self, request, *args, **kwargs):
         user = request.user
         books = Books.objects.filter(ordered_by=user)
-        return render(request, 'return_book.html', {'books':books, 'check':'check'})
+        return render(request, 'return_book.html', {'books':books})
     
     def post(self, request, *args, **kwargs):
         name = request.POST['book']
@@ -81,45 +91,35 @@ class ReturnView(View):
     
 
 class AddToCartView(View):
-    def get(self, request, *args, **kwargs):
-        uid = request.GET.get('u_id')
-        bname= request.GET.get('b_name')
-        user = CustomUser.objects.filter(id=uid).first()
-        book = Books.objects.filter(name=bname).first()
-        bc = BookCart(name=book.name, author=book.author, published_year=book.published_year, added_by=user)
-        c_bc = BookCart.objects.filter(name=book.name, author=book.author, published_year=book.published_year, added_by=user)
-        bookscart = BookCart.objects.all()
+    def get(self, request, book_id, *args, **kwargs):
+        user = request.user
+        book = Books.objects.filter(id=book_id).first()
+        bc = BookCart(name=book.name, added_by=user, status=BookCart.ADDED)
+        c_bc = BookCart.objects.filter(name=book.name, added_by=user)
         if c_bc:
-            return render(request, 'cart.html', {'bookscart':bookscart, 'user':user})
+            return redirect('view_cart')
         
         bc.save()
-        return render(request, 'cart.html', {'bookscart':bookscart, 'user':user})
+        return redirect('view_cart')
     
 
 class CartView(View):
     def get(self, request, *args, **kwargs):
-        uid = request.GET.get('uid')
-        user = CustomUser.objects.filter(id=uid).first()
         bookscart = BookCart.objects.all()
-        return render(request, 'cart.html', {'bookscart':bookscart, 'user':user})
+        return render(request, 'cart.html', {'bookscart':bookscart,})
 
 
 class RemoveView(View):
-    def get(self, request, *args, **kwargs):
-        uid = request.GET.get('u_id')
-        user = CustomUser.objects.filter(id=uid).first()
+    def get(self, request, book_id, *args, **kwargs):
         bookscart = BookCart.objects.all()
-        return render(request, 'cart.html', {'bookscart':bookscart, 'user':user, 'confirm':'confirm'})
+        return render(request, 'cart.html', {'bookscart':bookscart, 'confirm':'confirm'})
     
-    def post(self, request,*args, **kwargs):
-        uid = request.GET.get('u_id')
-        user = CustomUser.objects.filter(id=uid).first()
-        bid = request.GET.get('b_id')
-        book = BookCart.objects.filter(id=bid).first()
+    def post(self, request, book_id, *args, **kwargs):
+        book = BookCart.objects.filter(id=book_id).first()
         if not book:
             bookscart = BookCart.objects.all()
-            return render(request, 'cart.html', {'user':user, 'bookscart':bookscart})
+            return render(request, 'cart.html', {'bookscart':bookscart})
 
         book.delete()
         bookscart = BookCart.objects.all()
-        return render(request, 'cart.html', {'user':user, 'bookscart':bookscart})
+        return render(request, 'cart.html', {'bookscart':bookscart})

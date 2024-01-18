@@ -25,7 +25,7 @@
     {% endif %}
     {% if user.role == 'customer' %}
     <div class="d-flex flex-row gap-4">
-        <a href="/viewcart/?uid={{user.id}}"><button class="btn btn-primary">Your Cart</button></a>
+        <a href="/cart/view/"><button class="btn btn-primary">Your Cart</button></a>
         <a href="/profile/"><button class="btn btn-primary">Update Profile</button></a>
         <a href="/book/return/"><button class="btn btn-primary">Return Book</button></a>
         
@@ -38,8 +38,8 @@
             <div class="card-body">
                 <h5 class="card-title">{{book.name}}</h5>
                 <p class="card-text">By {{book.author}}, {{book.published_year}}</p>
-                <a href="/cart/?u_id={{user.id}}&b_name={{book.name}}"><button class="btn btn-sm btn-primary">Add to cart</button></a>
-                <a href="/book/order/?bid={{book.id}}"><button class="btn btn-sm btn-primary">Order now</button></a>
+                <a href="/cart/add/{{book.id}}/"><button class="btn btn-sm btn-primary">Add to cart</button></a>
+                <a href="/book/order/{{book.id}}/"><button class="btn btn-sm btn-primary">Order now</button></a>
 
             </div>
         </div>

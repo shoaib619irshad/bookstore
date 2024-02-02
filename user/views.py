@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.urls import reverse
 from django.views.generic.base import TemplateView
 from django.views import View
 from django.shortcuts import render, redirect
@@ -6,6 +8,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils import timezone
 from django.contrib import messages
 from django.db import IntegrityError
+from django.core.mail import send_mail
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
 
 from .models import CustomUser
 from book.models import Books
@@ -148,3 +154,51 @@ class UpdateProfileView(View):
         user.save()
         messages.success(request, 'Profile Updated Successfully')
         return render(request, 'result.html')
+    
+
+class ResetPasswordView(View):
+    def get (self, request, *args, **kwargs):
+        return render(request, 'reset_password.html')
+    
+    def post(self, request, *args, **kwargs):
+        email = request.POST['email']
+        user = CustomUser.objects.filter(email=email).first()
+        if not user:
+            messages.error(request, 'Email does not exists')
+            return redirect('reset_password')
+        
+        token = default_token_generator.make_token(user)
+        uidb64 = urlsafe_base64_encode(force_bytes(user.id))
+        reset_url = reverse('set_password', kwargs={'uidb64': uidb64, 'token': token})
+        reset_link = f'{request.scheme}://{request.get_host()}{reset_url}'
+        subject = "Reset Password"
+        message = f'Hi {user.first_name}, click on the link to reset your password:{reset_link}'
+        from_email = settings.EMAIL_HOST_USER
+        recipient_list = [user.email ,]
+        send_mail( subject, message, from_email, recipient_list )
+        messages.success(request, 'Password reset link has been successfully sent to your email.')
+        return redirect('login')
+    
+
+class SetPasswordView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'set_password.html')
+    
+    def post(self, request, *args, **kwargs):
+        new_password = request.POST['new_pass']
+        confirm_password = request.POST['c_pass']
+        uidb64 = kwargs['uidb64']
+        user_id = force_str(urlsafe_base64_decode(uidb64))
+        print(user_id)
+        user = CustomUser.objects.filter(id=user_id).first()
+
+        if new_password != confirm_password:
+            messages.error(request, 'Password does not match')
+            return render(request, 'set_password.html')
+        
+        user.password = make_password(new_password)
+        print(new_password,"============")
+        print(user.password)
+        user.save()
+        messages.success(request, 'Password set successfully. You can login now')
+        return redirect('login')

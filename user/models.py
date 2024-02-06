@@ -19,6 +19,7 @@ class CustomUser(AbstractBaseUser):
     last_name = models.CharField(max_length=50)
     role = models.CharField(max_length=8, choices=ROLE, default=CUSTOMER)
     phone = models.CharField(max_length=10, unique=True)
+    is_verified = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = [phone]

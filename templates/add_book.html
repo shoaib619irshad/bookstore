@@ -23,7 +23,7 @@
         </div>
     {% endif %}
     <h2>Add book</h2>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="mb-3 mt-3">
             <label for="f1">Name:</label>
@@ -36,6 +36,10 @@
         <div class="mb-3">
             <label for="f3">Published Year</label>
             <input class="form-control" type="text" id="f3" required name="p_year" placeholder="Enter year of publication">
+        </div>
+        <div class="mb-3">
+            <label for="f4">Cover Image</label>
+            <input class="form-control" type="file" id="f4" required name="cover_image">
         </div>
         <button class="btn btn-primary">Add</button>
     </form>

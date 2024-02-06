@@ -12,6 +12,8 @@ from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
+from django.core.paginator import Paginator , PageNotAnInteger, EmptyPage
+from rest_framework.pagination import PageNumberPagination
 
 from .models import CustomUser
 from book.models import Books
@@ -77,7 +79,16 @@ class LogoutView(View):
     
 class DashboardView(View):
     def get(self, request, *args, **kwargs):
-        books = Books.objects.all()
+        books = Books.objects.filter(status="available").order_by('id')
+
+        paginator = Paginator(books, 6)
+        page = request.GET.get('page')
+        try:
+            books = paginator.page(page)
+        except PageNotAnInteger:
+            books = paginator.page(1)
+        except EmptyPage:
+            books = paginator.page(paginator.num_pages)
         return render(request, 'dashboard.html', {'books':books})
     
 

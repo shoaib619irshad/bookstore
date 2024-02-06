@@ -14,7 +14,10 @@ class AddView(View):
         name = request.POST['name']
         author = request.POST['author']
         p_year = request.POST['p_year']
-        book = Books(name=name, author=author, published_year=p_year)
+        cover_image = request.FILES.get('cover_image')
+        print(cover_image)
+        print(type(cover_image))
+        book = Books(name=name, author=author, published_year=p_year, cover_image=cover_image)
         c_book = Books.objects.filter(name=name, author=author, published_year=p_year)
         if c_book:
             messages.error(request, 'This book already exists')

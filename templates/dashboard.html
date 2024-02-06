@@ -31,10 +31,12 @@
         
     </div>
     {% if books %}
-    <div class="d-flex flex-row flex-wrap justify-content-center gap-3 my-5 p-4 w-75">
+    <div class="overflow-auto d-flex flex-column align-items-center mt-2 mb-5">
+    <div class="d-flex flex-row flex-wrap justify-content-center gap-3 mb-1 p-4 w-75">
         {% for book in books%}
         {% if book.status == "available" %}
         <div class="card my-2 mx-3" style="width: 16rem;">
+            <img class="card-img-top" src="/media/{{book.cover_image}}" alt="Book Cover" height="300px" width="450px">
             <div class="card-body">
                 <h5 class="card-title">{{book.name}}</h5>
                 <p class="card-text">By {{book.author}}, {{book.published_year}}</p>
@@ -45,6 +47,22 @@
         </div>
         {% endif %}
         {% endfor %}
+    </div>
+    <div class="pagination mb-5">
+        <span class="step-links">
+            {% if books.has_previous %}
+                <a href="?page={{ books.previous_page_number }}"><<< Previous </a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ books.number }} of {{ books.paginator.num_pages }}.
+            </span>
+    
+            {% if books.has_next %}
+                <a href="?page={{ books.next_page_number }}">Next >>></a>
+            {% endif %}
+        </span>
+    </div>
     </div>
     {% endif %}
     {% endif %}

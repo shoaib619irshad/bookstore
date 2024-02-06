@@ -16,6 +16,7 @@ class Books(models.Model):
     published_year = models.CharField(max_length=4)
     status = models.CharField(max_length=9, choices=STATUS, default=AVAILABLE)
     ordered_by = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True)
+    cover_image = models.ImageField(upload_to='images/', null=True, blank=True)
 
 
 class BookCart(models.Model):
